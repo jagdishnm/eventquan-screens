@@ -45,7 +45,7 @@ export function EqMark({ size = 40, className = '' }: MarkProps) {
 export function MatchupThumb({ size = 76 }: { size?: number }) {
   return (
     <div
-      className="relative shrink-0 overflow-hidden rounded-[14px]"
+      className="relative shrink-0 overflow-hidden rounded-thumb"
       style={{ width: size, height: size }}
       role="img"
       aria-label="Texas A&M vs LSU"

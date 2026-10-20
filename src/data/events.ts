@@ -99,7 +99,7 @@ export const THIS_WEEK: (EventItem & { day: string; date: string })[] = [
     category: 'Academic',
     node: 'tamu',
     when: '10:00 AM',
-    venue: 'Zachry Engineering Center',
+    venue: 'Zachry',
     img: '/img/zachry.jpg',
     attending: '3.2K going',
     friends: 9,
@@ -135,9 +135,9 @@ export const THIS_WEEK: (EventItem & { day: string; date: string })[] = [
 
 export const CATEGORY_TONE: Record<Category, string> = {
   Athletics: 'text-maroon',
-  'Student Life': 'text-[#8a5a00]',
+  'Student Life': 'text-soon-ink',
   Academic: 'text-bryan',
   Tradition: 'text-maroon-line',
-  Arts: 'text-[#7b3fa0]',
+  Arts: 'text-tint-purple-ink',
   Community: 'text-cstat',
 }

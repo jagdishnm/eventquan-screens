@@ -9,7 +9,8 @@ PROFILE="$(mktemp -d)"
 mkdir -p "$OUT"
 
 shot() { # route name scale width,height
-  "$CHROME" --headless=new --disable-gpu --hide-scrollbars --user-data-dir="$PROFILE" \
+  # Reduced motion: headless capture can land mid-animation (the gameday score once exported blank).
+  "$CHROME" --headless=new --disable-gpu --hide-scrollbars --force-prefers-reduced-motion --user-data-dir="$PROFILE" \
     --force-device-scale-factor="$3" --window-size="$4" --virtual-time-budget=4000 \
     --screenshot="$OUT/$2.png" "$BASE$1" >/dev/null 2>&1
   echo "$OUT/$2.png"

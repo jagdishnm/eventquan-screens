@@ -13,6 +13,8 @@ const projectRoot = path.resolve(tempoRoot, "..");
 
 export default defineConfig({
   root: tempoRoot,
+  // Serve the app's public/ (photos under /img) so component storyboards load the same images.
+  publicDir: path.resolve(projectRoot, "public"),
   resolve: {
     dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "tempo-sdk"],
   },

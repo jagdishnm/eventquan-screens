@@ -6,7 +6,7 @@ export function StatusBar({ tone = 'light' }: Props) {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 z-40 h-[54px]">
       <div className="absolute left-1/2 top-[11px] h-[37px] w-[125px] -translate-x-1/2 rounded-full bg-black" />
-      <div className="absolute left-[46px] top-[18px] text-[17px] font-semibold tracking-[-0.2px]" style={{ color: c }}>
+      <div className="absolute left-[46px] top-[18px] text-emphasis font-semibold tracking-snug" style={{ color: c }}>
         9:41
       </div>
       <div className="absolute right-[30px] top-[22px] flex items-center gap-[6px]">

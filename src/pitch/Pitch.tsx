@@ -53,7 +53,7 @@ const LINEUP: Entry[] = [
     source: 'Board 1, screen 1',
     lede: 'His launcher stays. What is live right now sits on top of it.',
     points: [
-      'All twelve tiles, in his order, now carry live state: Sbisa open, Rt 40 in 12 min, GAMEDAY.',
+      'All twelve tiles stay in his order, and the ones with something live say so: Sbisa open, Rt 40 in 12 min, GAMEDAY.',
       'A “Right now” strip above the grid is his Context Flow, running as a carousel.',
       'One gold action on screen: Game Mode.',
     ],

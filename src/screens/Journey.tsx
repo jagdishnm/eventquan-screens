@@ -33,7 +33,7 @@ const STEPS: Step[] = [
     kind: 'Elevated',
     day: 'Sat',
     time: '9:41 AM',
-    note: 'What is live right now comes first. The twelve tiles stay, and each one shows its own live state.',
+    note: 'What is live right now comes first. The twelve tiles stay, and the ones with something live show it.',
     screen: <Home />,
   },
   {
@@ -79,7 +79,7 @@ const OFFSET = [0, 40, 12, 52, 4, 36]
 
 export function Journey() {
   return (
-    <main className="relative min-h-dvh overflow-hidden bg-[#0e0d0f] px-[72px] pb-20 pt-16 text-[#f4f1ec]">
+    <main className="relative min-h-dvh overflow-hidden bg-night px-[72px] pb-20 pt-16 text-paper">
       <div className="pointer-events-none absolute -left-40 -top-56 size-[900px] rounded-full bg-maroon/45 blur-[160px]" />
       <div className="pointer-events-none absolute -right-40 top-[420px] size-[700px] rounded-full bg-gold/[0.06] blur-[140px]" />
 
@@ -87,7 +87,7 @@ export function Journey() {
         <div>
           <div className="flex items-center gap-3">
             <EqMark size={32} />
-            <span className="text-[14px] font-semibold tracking-[2.4px] text-[#f4f1ec]/55">
+            <span className="text-control font-semibold tracking-[2.4px] text-paper/55">
               EVENTQUAN × TEXAS A&amp;M · SIX SCREENS
             </span>
           </div>
@@ -98,13 +98,13 @@ export function Journey() {
           </h1>
         </div>
         <div className="max-w-[560px] pb-3">
-          <p className="text-[21px] leading-[1.5] text-[#f4f1ec]/70 [text-wrap:pretty]">
+          <p className="text-board-lede leading-[1.5] text-paper/70 [text-wrap:pretty]">
             Every live event is a sheet of paper. The student is a straw pushed through the stack. These six screens are
             one student's slice of it, in the order they would see them.
           </p>
-          <div className="mt-6 flex gap-6 text-[14px] text-[#f4f1ec]/55">
+          <div className="mt-6 flex gap-6 text-control text-paper/55">
             <span className="flex items-center gap-2">
-              <span className="size-[10px] rounded-full bg-[#f4f1ec]/85" /> Elevated from Troy's boards
+              <span className="size-[10px] rounded-full bg-paper/85" /> Elevated from Troy's boards
             </span>
             <span className="flex items-center gap-2">
               <span className="size-[10px] rounded-full bg-gold" /> New, not drawn before
@@ -115,7 +115,7 @@ export function Journey() {
 
       {/* The straw: one gold thread through every moment */}
       <div className="relative mt-16 h-[64px]">
-        <div className="draw absolute inset-x-0 top-[44px] h-[2px] bg-[linear-gradient(90deg,rgba(255,205,28,0)_0%,#ffcd1c_6%,#ffcd1c_94%,rgba(255,205,28,0)_100%)] [animation-delay:250ms]" />
+        <div className="draw absolute inset-x-0 top-[44px] h-[2px] bg-[linear-gradient(90deg,rgba(255,205,28,0)_0%,var(--color-gold)_6%,var(--color-gold)_94%,rgba(255,205,28,0)_100%)] [animation-delay:250ms]" />
         <div className="flex gap-[56px]">
           {STEPS.map((s, i) => (
             <div key={s.n} className="relative w-[417px] shrink-0">
@@ -124,10 +124,10 @@ export function Journey() {
                 style={{ animationDelay: `${450 + i * 110}ms` }}
               >
                 <span className="text-[30px] font-bold leading-none tracking-[0.2px] tabular">{s.time}</span>
-                <span className="text-[16px] font-semibold tracking-[1.6px] text-[#f4f1ec]/45">{s.day}</span>
+                <span className="text-card font-semibold tracking-[1.6px] text-paper/45">{s.day}</span>
               </div>
               <span
-                className="rise absolute left-[14px] top-[38px] size-[14px] rounded-full bg-gold ring-[5px] ring-[#0e0d0f]"
+                className="rise absolute left-[14px] top-[38px] size-[14px] rounded-full bg-gold ring-[5px] ring-night"
                 style={{ animationDelay: `${450 + i * 110}ms` }}
               />
             </div>
@@ -155,14 +155,14 @@ export function Journey() {
               <div className="flex items-baseline gap-3">
                 <span
                   className={`font-display text-[44px] font-extrabold italic leading-none tabular ${
-                    s.kind === 'New' ? 'text-gold' : 'text-[#f4f1ec]/85'
+                    s.kind === 'New' ? 'text-gold' : 'text-paper/85'
                   }`}
                 >
                   {String(s.n).padStart(2, '0')}
                 </span>
-                <span className="text-[23px] font-semibold tracking-[-0.4px]">{s.title}</span>
+                <span className="text-board-title font-semibold tracking-[-0.4px]">{s.title}</span>
               </div>
-              <p className="mt-2.5 text-[16px] leading-[1.5] text-[#f4f1ec]/62 [text-wrap:pretty]">{s.note}</p>
+              <p className="mt-2.5 text-card leading-[1.5] text-paper/62 [text-wrap:pretty]">{s.note}</p>
             </figcaption>
           </figure>
         ))}

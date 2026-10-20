@@ -65,7 +65,7 @@ await page.evaluate(() => {
 await wait(900)
 
 // 3 · EventFinder.
-await page.getByRole('link', { name: 'Events', exact: true }).click()
+await page.getByRole('navigation').getByRole('link', { name: 'Events', exact: true }).click()
 await wait(1700)
 await smoothScroll('.overflow-y-auto', 320)
 await wait(1300)
@@ -87,7 +87,7 @@ await smoothScroll('.overflow-y-auto', 260)
 await wait(1400)
 
 // 6 · Quick Event: type it like a text and watch it become an event.
-await page.getByRole('link', { name: 'Home', exact: true }).click()
+await page.getByRole('navigation').getByRole('link', { name: 'Home', exact: true }).click()
 await wait(900)
 await page.locator('a[href="/quick-event"]').first().click()
 await wait(900)

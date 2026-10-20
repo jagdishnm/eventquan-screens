@@ -39,6 +39,102 @@
   --color-lsu: #461d7c;
   --color-lsu-gold: #fdd023;
 
+  /* Status — the only colours a badge, pill or inline status may use */
+  --color-live-ink: #c4231e; /* live text on a live/10 tint: 5.05:1 */
+  --color-soon: #fff4d6; /* "Opens in…", Quick Event tag */
+  --color-soon-ink: #7a4f00; /* 6.4:1 on soon */
+  --color-warn-ink: #9a3f06;
+  --color-gold-dark: #b08400; /* gold as an icon on white */
+
+  /* Status and nodes on dark or photo surfaces */
+  --color-error-on-dark: #ff7b76;
+  --color-success-on-dark: #4ade80;
+  --color-cstat-on-dark: #3fd29b;
+  --color-bryan-on-dark: #6aa7ff;
+
+  /* Surfaces */
+  --color-platform: #0d0e12; /* EventQuan before a campus skin */
+  --color-field: #1f4a2a; /* game day drive tracker */
+  --color-disabled: #e6e3d8;
+  --color-hairline-strong: #cfcfd6;
+  --color-press: #fafafa;
+
+  /* Tile tints: a soft background + an icon colour, one pair per service */
+  --color-tint-blue: #e8effa;
+  --color-tint-blue-ink: #2c5ea8;
+  --color-tint-green: #e6f4ec;
+  --color-tint-green-ink: #1f7a4d;
+  --color-tint-amber: #fdf1df;
+  --color-tint-amber-ink: #b06a00;
+  --color-tint-indigo: #ebe9fb;
+  --color-tint-indigo-ink: #4a3fb0;
+  --color-tint-red: #fbe9e9;
+  --color-tint-red-ink: #b23434;
+  --color-tint-purple: #f3e9f8;
+  --color-tint-purple-ink: #7b3fa0;
+  --color-tint-teal: #e4f3f3;
+  --color-tint-teal-ink: #0f7272;
+  --color-tint-sky: #e6f1fb;
+  --color-tint-sky-ink: #1c6fb8;
+  --color-tint-maroon: #f5ecec;
+  --color-tint-neutral: #efeff3;
+
+  /* Avatars (all ≥4.7:1 with white initials) */
+  --color-avatar-1: #7a2b2b;
+  --color-avatar-2: #9a6a2c;
+  --color-avatar-3: #2f5d8a;
+  --color-avatar-4: #38704f;
+  --color-avatar-5: #7f4e93;
+  --color-avatar-6: #a24a32;
+
+  /*
+   * Type scale. Nine steps for UI text; anything 24px+ is display type
+   * (scores, hero titles) and is set per use with font-display.
+   */
+  --text-tab: 10px; /* tab bar labels only (iOS 10pt) */
+  --text-micro: 11px; /* badges, eyebrows, tile status */
+  --text-meta: 12px; /* secondary metadata */
+  --text-small: 13px; /* supporting copy */
+  --text-control: 14px; /* chips, small buttons */
+  --text-body: 15px; /* primary list text, buttons */
+  --text-card: 16px; /* card titles */
+  --text-emphasis: 17px; /* nav titles, large buttons */
+  --text-title: 20px; /* section headers */
+  --text-headline: 28px; /* screen titles */
+  /* Large type: the condensed display face and hero titles. Live scores stay fluid (clamp) in GameDay. */
+  --text-display-sm: 26px; /* inline numerals, sheet titles */
+  --text-display-md: 30px; /* GAMEDAY banner, clocks, countdowns */
+  --text-display-lg: 34px; /* card and venue titles */
+  --text-display-xl: 52px; /* hero statements */
+  /* Journey board only (a 2930px presentation surface, not app UI) */
+  --text-board-lede: 21px;
+  --text-board-title: 23px;
+
+  /* Letter spacing */
+  --tracking-eyebrow: 0.6px; /* small caps labels */
+  --tracking-caps: 1.2px; /* spaced caps headers, kickers */
+  --tracking-snug: -0.2px; /* UI text 13–17px */
+  --tracking-title: -0.4px; /* 20px titles */
+  --tracking-headline: -0.8px; /* 28px+ screen titles */
+
+  /* Radius scale */
+  --radius-tag: 6px; /* small labels, date chips */
+  --radius-well: 10px; /* icon wells, small buttons */
+  --radius-thumb: 14px; /* photos, tiles, medium buttons */
+  --radius-card: 18px; /* cards and grouped lists */
+  --radius-sheet: 22px; /* sheets, composer, hero overlap */
+
+  /* Elevation */
+  --shadow-raised: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-floating: 0 1px 2px rgba(30, 0, 0, 0.06), 0 12px 28px -16px rgba(60, 0, 0, 0.4);
+  --shadow-overlay: 0 -20px 40px -20px rgba(0, 0, 0, 0.4);
+  --shadow-control: inset 0 -2px 0 rgba(0, 0, 0, 0.12); /* pressed-edge on solid buttons */
+
+  /* Motion durations */
+  --duration-quick: 260ms; /* presses, colour changes */
+  --duration-base: 520ms; /* entrances */
+  --duration-slow: 900ms; /* hero and skin moments */
+
   --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
   --font-display: 'Barlow Condensed', 'SF Pro Display', system-ui, sans-serif;
   --font-slab: 'Zilla Slab', Georgia, serif;
@@ -95,6 +191,11 @@ body {
   outline-offset: 2px;
   box-shadow: 0 0 0 2px var(--color-gold);
   border-radius: 10px;
+}
+/* Programmatic focus targets (sheet titles) take focus for screen readers, not as controls — no ring */
+[tabindex='-1']:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 /* Text fields show the caret, as on iOS — no ring */
 input:focus-visible,
