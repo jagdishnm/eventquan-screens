@@ -3,14 +3,14 @@ import { useSkin } from './Skin'
 type MarkProps = { size?: number; className?: string }
 
 /**
- * The university's mark. In the Texas A&M skin it is the A&M block mark (a simplified type mark
- * standing in for the licensed logo); in another skin it becomes that school's mark. Pass `team`
- * where it stands for Texas A&M the football team (a scoreboard, the team's own account), so the
- * matchup keeps the real team whatever the skin is.
+ * The home university's mark. In the Texas A&M skin it is the A&M block mark (a simplified type
+ * mark standing in for the licensed logo); in another skin it becomes that school's mark. Pass
+ * `team` where it stands for the home football team (a scoreboard, the team's own account): the
+ * team colour then comes from the fixed team token, not the skin.
  */
 export function AggieMark({ size = 32, className = '', team = false }: MarkProps & { team?: boolean }) {
   const skin = useSkin()
-  if (skin === 'lsu' && !team) return <LsuWordmark size={size} className={className} />
+  if (skin === 'lsu') return <LsuWordmark size={size} className={className} />
   return (
     <span
       className={`inline-grid shrink-0 place-items-center rounded-[22%] font-slab font-bold leading-none text-white ring-1 ring-white/25 ${
@@ -43,15 +43,22 @@ export function LsuWordmark({ size = 32, className = '' }: MarkProps) {
   )
 }
 
+/**
+ * The visiting team's mark: LSU when Texas A&M is home. In the LSU skin the roles swap and the
+ * visitor is Texas A&M, drawn in the away colours the skin assigns to the lsu tokens.
+ */
 export function LsuMark({ size = 32, className = '' }: MarkProps) {
+  const away = useSkin() === 'lsu' ? 'A&M' : 'LSU'
   return (
     <span
-      className={`inline-grid shrink-0 place-items-center rounded-[22%] bg-lsu font-display font-extrabold italic leading-none text-lsu-gold ${className}`}
-      style={{ width: size, height: size, fontSize: size * 0.4 }}
+      className={`inline-grid shrink-0 place-items-center rounded-[22%] bg-lsu leading-none text-lsu-gold ${
+        away === 'LSU' ? 'font-display font-extrabold italic' : 'font-slab font-bold'
+      } ${className}`}
+      style={{ width: size, height: size, fontSize: size * (away === 'LSU' ? 0.4 : 0.36) }}
       role="img"
-      aria-label="LSU"
+      aria-label={away === 'LSU' ? 'LSU' : 'Texas A&M'}
     >
-      LSU
+      {away}
     </span>
   )
 }
@@ -70,25 +77,30 @@ export function EqMark({ size = 40, className = '' }: MarkProps) {
   )
 }
 
-/** Square split thumbnail for a matchup, used in event cards. */
+/** Square split thumbnail for a matchup, used in event cards: the home team top left, the visitor bottom right. */
 export function MatchupThumb({ size = 76 }: { size?: number }) {
+  const lsuHome = useSkin() === 'lsu'
+  const [home, away] = lsuHome ? ['LSU', 'A&M'] : ['A&M', 'LSU']
   return (
     <div
       className="relative shrink-0 overflow-hidden rounded-thumb"
       style={{ width: size, height: size }}
       role="img"
-      aria-label="Texas A&M vs LSU"
+      aria-label={lsuHome ? 'LSU vs Texas A&M' : 'Texas A&M vs LSU'}
     >
       <div className="absolute inset-0 bg-tamu" style={{ clipPath: 'polygon(0 0,100% 0,0 100%)' }} />
       <div className="absolute inset-0 bg-lsu" style={{ clipPath: 'polygon(100% 0,100% 100%,0 100%)' }} />
-      <span className="absolute left-[9%] top-[12%] font-slab font-bold text-white" style={{ fontSize: size * 0.24 }}>
-        A&amp;M
+      <span
+        className={`absolute left-[9%] top-[12%] ${lsuHome ? 'font-display font-extrabold italic text-gold' : 'font-slab font-bold text-white'}`}
+        style={{ fontSize: size * (lsuHome ? 0.27 : 0.24) }}
+      >
+        {home}
       </span>
       <span
-        className="absolute bottom-[10%] right-[9%] font-display font-extrabold italic text-lsu-gold"
-        style={{ fontSize: size * 0.27 }}
+        className={`absolute bottom-[10%] right-[9%] text-lsu-gold ${lsuHome ? 'font-slab font-bold' : 'font-display font-extrabold italic'}`}
+        style={{ fontSize: size * (lsuHome ? 0.24 : 0.27) }}
       >
-        LSU
+        {away}
       </span>
     </div>
   )

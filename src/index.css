@@ -39,7 +39,7 @@
   --color-lsu: #461d7c;
   --color-lsu-gold: #fdd023;
 
-  /* Texas A&M as a team (scoreboards, matchups): stays maroon whatever the university skin is */
+  /* The home team in a matchup (Texas A&M; a skin can make another school home). The lsu tokens are the visitor. */
   --color-tamu: #500000;
 
   /* Status — the only colours a badge, pill or inline status may use */
@@ -188,6 +188,8 @@
   /* concept: map */
   /* The one hero numeral on a Map sheet (223 events found, Sec 125): 10:1 against the 11px kicker */
   --text-display-map: 112px;
+  /* A place name as a Map sheet's hero (KYLE FIELD, SEC 125, NORTHGATE): the widest word that fits 361pt, 7.6:1 over the kicker */
+  --text-display-map-title: 84px;
   /* Your seat and the dropped pin breathe on the quint curve, not Tailwind's ping */
   --animate-map-pulse: map-pulse 2.2s var(--ease-out-quint) infinite;
   @keyframes map-pulse {
@@ -219,6 +221,10 @@
   --color-gold: #fdd023;
   --color-gold-press: #eabf0e;
   --color-avatar-1: #5b2c8f;
+  /* LSU is home: the home team token is LSU purple, the visiting (lsu) tokens become Texas A&M */
+  --color-tamu: #461d7c;
+  --color-lsu: #500000;
+  --color-lsu-gold: #ffffff;
 }
 
 html,
