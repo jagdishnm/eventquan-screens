@@ -5,7 +5,7 @@ import { SkinFrame, skinFromSearch } from './components/Skin'
 import { Title } from './components/Title'
 import { EventFinderMap } from './explorations/EventFinderMap'
 import { JourneyRoute } from './explorations/JourneyRoute'
-import { ConceptJourneyRoute, ConceptScreenRoute } from './explorations/concepts/ConceptRoute'
+import { ConceptJourneyRoute, ConceptScreenRoute, ConceptStateRoute } from './explorations/concepts/ConceptRoute'
 import { FlowRoute } from './explorations/flows/FlowRoute'
 import { GameDayCardStunt } from './explorations/GameDayCardStunt'
 import { GameDayScoreboard } from './explorations/GameDayScoreboard'
@@ -81,6 +81,7 @@ export default function App() {
         <Route path="/explore/journey/:letter" element={<JourneyRoute />} />
         <Route path="/explore/concept/:key" element={<ConceptJourneyRoute />} />
         <Route path="/explore/concept/:key/:n" element={<ConceptScreenRoute />} />
+        <Route path="/explore/concept/:key/state/:state" element={<ConceptStateRoute />} />
         <Route path="/welcome" element={screen('Sign in', <WelcomeEmail />, 'bg-[#0d0e12]')} />
         <Route path="/welcome/campus" element={screen('Welcome, Aggie', <WelcomeCampus />, 'bg-[#0d0e12]')} />
       </Routes>

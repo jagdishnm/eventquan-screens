@@ -225,6 +225,9 @@
   --color-tamu: #461d7c;
   --color-lsu: #500000;
   --color-lsu-gold: #ffffff;
+  /* The LSU wording (src/data/skins/lsu.ts) names the stadium "Tiger Stadium", three letters longer
+     than "Kyle Field": the one-line place-name hero steps down so it still fits the sheet */
+  --text-display-map-title: 66px;
 }
 
 html,

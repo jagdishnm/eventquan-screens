@@ -21,7 +21,7 @@ import {
   MapRail,
   MapScrim,
   MapSheet,
-  SheetTitle,
+  SheetCount,
 } from './concepts/map/MapChrome'
 
 const CHIPS = ['All', 'Athletics', 'Student Life', 'Academic', 'Traditions'] as const
@@ -94,18 +94,9 @@ function TodaySheet({ selected, onSelect }: { selected: string; onSelect: (id: s
   return (
     <MapSheet labelledBy="map-today" flush>
       <div className="px-4">
-        <SheetTitle
-          id="map-today"
-          kicker="Sat, Oct 12 · Every event, pinned"
-          aside={
-            <>
-              <span className="block font-semibold text-ink-2 tabular">5 today</span>
-              Swipe · <span className="tabular">1 of 5</span>
-            </>
-          }
-        >
-          Today
-        </SheetTitle>
+        <SheetCount id="map-today" count={5} kicker="Sat, Oct 12 · every one pinned">
+          Events today
+        </SheetCount>
       </div>
 
       <div className="no-scrollbar mt-3 flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-4 pb-1 scroll-px-4">

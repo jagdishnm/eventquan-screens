@@ -33,6 +33,7 @@ export function LsuWordmark({ size = 32, className = '' }: MarkProps) {
       style={{ width: size, height: size }}
       role="img"
       aria-label="Louisiana State University"
+      translate="no"
     >
       <svg viewBox="0 0 200.1 66.3" width={size * 0.74} aria-hidden className="fill-gold">
         <path d="M127.7,49.5v-23H83.6v-6.5c0-2.9,3.2-5.2,7-5.2h37V2.4h-47c-10,0-18.2,6.1-18.2,13.5v22.9h44.1v6.6c0,2.9-3.2,5.2-7.1,5.2h-37V63h46.9C119.5,63,127.7,56.9,127.7,49.5z" />
@@ -44,6 +45,9 @@ export function LsuWordmark({ size = 32, className = '' }: MarkProps) {
 }
 
 /**
+ * The skin-aware marks below carry `translate="no"`: they already name the right team for the skin,
+ * so the LSU wording layer (`SkinCopy`) must not swap them a second time.
+ *
  * The visiting team's mark: LSU when Texas A&M is home. In the LSU skin the roles swap and the
  * visitor is Texas A&M, drawn in the away colours the skin assigns to the lsu tokens.
  */
@@ -57,6 +61,7 @@ export function LsuMark({ size = 32, className = '' }: MarkProps) {
       style={{ width: size, height: size, fontSize: size * (away === 'LSU' ? 0.4 : 0.36) }}
       role="img"
       aria-label={away === 'LSU' ? 'LSU' : 'Texas A&M'}
+      translate="no"
     >
       {away}
     </span>
@@ -87,6 +92,7 @@ export function MatchupThumb({ size = 76 }: { size?: number }) {
       style={{ width: size, height: size }}
       role="img"
       aria-label={lsuHome ? 'LSU vs Texas A&M' : 'Texas A&M vs LSU'}
+      translate="no"
     >
       <div className="absolute inset-0 bg-tamu" style={{ clipPath: 'polygon(0 0,100% 0,0 100%)' }} />
       <div className="absolute inset-0 bg-lsu" style={{ clipPath: 'polygon(100% 0,100% 100%,0 100%)' }} />

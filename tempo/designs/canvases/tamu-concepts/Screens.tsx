@@ -1,7 +1,6 @@
 import { MemoryRouter } from 'react-router-dom'
-import { CONCEPTS, LEAD_CONCEPT } from '../../../../src/explorations/concepts'
+import { CONCEPT_STATES, CONCEPTS, LEAD_CONCEPT } from '../../../../src/explorations/concepts'
 import { ConceptJourney } from '../../../../src/explorations/concepts/ConceptJourney'
-import { LIVE_STATES } from '../../../../src/explorations/concepts/live/states'
 
 /* Canvas-only wrappers: each concept screen rendered at phone size inside a router at its own path. */
 function ConceptScreen({ k, n }: { k: string; n: number }) {
@@ -112,17 +111,31 @@ export function ConceptNotes() {
   )
 }
 
-/** The lead concept's failure states (wrong email, location, no signal, quiet day), at phone size. */
-function LiveState({ k }: { k: string }) {
-  const s = LIVE_STATES.find((x) => x.key === k)
+/** Each concept's failure states (wrong email, location, no signal, quiet day), at phone size. */
+function ConceptState({ c, k }: { c: keyof typeof CONCEPT_STATES; k: string }) {
+  const s = CONCEPT_STATES[c].find((x) => x.key === k)
   return (
     <div style={{ width: 393, height: 852 }} className="overflow-hidden">
-      <MemoryRouter initialEntries={[`/explore/concept/live/state/${k}`]}>{s ? <s.Screen /> : null}</MemoryRouter>
+      <MemoryRouter initialEntries={[`/explore/concept/${c}/state/${k}`]}>{s ? <s.Screen /> : null}</MemoryRouter>
     </div>
   )
 }
+export const DayStateSignInError = () => <ConceptState c="day" k="sign-in-error" />
+export const DayStateLocation = () => <ConceptState c="day" k="location" />
+export const DayStateOffline = () => <ConceptState c="day" k="offline" />
+export const DayStateQuiet = () => <ConceptState c="day" k="quiet" />
 
-export const LiveStateSignInError = () => <LiveState k="sign-in-error" />
-export const LiveStateLocation = () => <LiveState k="location" />
-export const LiveStateOffline = () => <LiveState k="offline" />
-export const LiveStateQuiet = () => <LiveState k="quiet" />
+export const MapStateSignInError = () => <ConceptState c="map" k="sign-in-error" />
+export const MapStateLocation = () => <ConceptState c="map" k="location" />
+export const MapStateOffline = () => <ConceptState c="map" k="offline" />
+export const MapStateQuiet = () => <ConceptState c="map" k="quiet" />
+
+export const LiveStateSignInError = () => <ConceptState c="live" k="sign-in-error" />
+export const LiveStateLocation = () => <ConceptState c="live" k="location" />
+export const LiveStateOffline = () => <ConceptState c="live" k="offline" />
+export const LiveStateQuiet = () => <ConceptState c="live" k="quiet" />
+
+export const PrintStateSignInError = () => <ConceptState c="print" k="sign-in-error" />
+export const PrintStateLocation = () => <ConceptState c="print" k="location" />
+export const PrintStateOffline = () => <ConceptState c="print" k="offline" />
+export const PrintStateQuiet = () => <ConceptState c="print" k="quiet" />

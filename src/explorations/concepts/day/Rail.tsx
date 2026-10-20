@@ -252,7 +252,9 @@ export function NowMarker({
   return (
     <div aria-hidden className="pointer-events-none absolute inset-x-0 z-20" style={{ top: y }}>
       <span
-        className={`absolute -translate-y-1/2 rounded-tag px-1.5 pb-[3px] pt-[2px] text-center leading-none ${s.nowPill}`}
+        className={`absolute -translate-y-1/2 rounded-tag pb-[3px] pt-[2px] text-center leading-none ${
+          split(h).hm.length > 4 ? 'px-1' : 'px-1.5'
+        } ${s.nowPill}`}
         style={{ right: `calc(100% - ${RAIL_X - 12}px)` }}
       >
         <span className="block text-tab font-bold tracking-eyebrow">{tag}</span>

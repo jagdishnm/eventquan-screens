@@ -223,16 +223,11 @@ export function MapDropPin() {
         </MapToast>
         <SheetTitle
           id="drop-title"
-          size={place.length > 12 ? 'lg' : 'xl'}
+          size={place.length > 10 ? 'lg' : 'hero'}
           kicker={
             <>
               <span aria-hidden className={`size-[8px] rounded-full ${SOLID[node]}`} />
-              {NODE_META[node].label} · Drop a pin
-            </>
-          }
-          aside={
-            <>
-              <span className="tabular">12 min</span> walk
+              {NODE_META[node].label} · <span className="tabular">12 min</span> walk
             </>
           }
         >

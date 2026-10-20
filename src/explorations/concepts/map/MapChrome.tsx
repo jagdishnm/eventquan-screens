@@ -93,8 +93,8 @@ export function SheetTitle({
   /** Sits on the title's baseline at the right, e.g. a count or a walk time. */
   aside?: ReactNode
   dark?: boolean
-  /** `lg` steps down for long place names. */
-  size?: 'xl' | 'lg'
+  /** `hero` (84pt) for a short place name, `xl` (52pt) for a phrase, `lg` for long place names. */
+  size?: 'hero' | 'xl' | 'lg'
   as?: 'h1' | 'h2'
 }) {
   return (
@@ -110,7 +110,11 @@ export function SheetTitle({
         <H
           id={id}
           className={`min-w-0 font-display font-extrabold uppercase italic leading-[0.86] tracking-headline text-balance ${
-            size === 'xl' ? 'text-display-xl' : 'text-display-lg'
+            size === 'hero'
+              ? 'whitespace-nowrap text-display-map-title'
+              : size === 'xl'
+                ? 'text-display-xl'
+                : 'text-display-lg'
           } ${dark ? 'text-white' : 'text-ink'}`}
         >
           {children}
@@ -159,6 +163,47 @@ export function MapToast({
         </div>
       ) : null}
     </div>
+  )
+}
+
+/**
+ * The hero as a count: one numeral at 112pt (10:1 over the 11pt kicker) with what it counts set
+ * beside it in the condensed face, stacked. Takes no more height than kicker + 52pt title.
+ */
+export function SheetCount({
+  id,
+  count,
+  kicker,
+  children,
+  dark = false,
+  as: H = 'h2',
+}: {
+  id: string
+  count: ReactNode
+  kicker?: ReactNode
+  /** What the number counts, e.g. "Around you now". */
+  children: ReactNode
+  dark?: boolean
+  as?: 'h1' | 'h2'
+}) {
+  return (
+    <H id={id} className={`mt-2.5 flex items-end gap-3 ${dark ? 'text-white' : 'text-ink'}`}>
+      <span className="font-display text-display-map font-extrabold italic leading-[0.78] tracking-headline tabular">
+        {count}
+      </span>
+      <span className="min-w-0 pb-1.5">
+        {kicker ? (
+          <span
+            className={`flex items-center gap-1.5 text-micro font-bold uppercase tracking-caps ${dark ? 'text-gold' : 'text-ink-3'}`}
+          >
+            {kicker}
+          </span>
+        ) : null}
+        <span className="mt-1 block font-display text-display-md font-extrabold uppercase italic leading-[0.9] text-balance">
+          {children}
+        </span>
+      </span>
+    </H>
   )
 }
 

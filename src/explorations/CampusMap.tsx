@@ -34,6 +34,9 @@ export const CAMPUS_PINS: MapPinSpec[] = [
   { id: 'reed', x: 66, y: 470, label: 'Reed Arena', node: 'tamu' },
 ]
 
+/** Where the blue dot sits, in map coordinates. */
+export const YOU_AT = { left: 150, top: 382 }
+
 /** Main roads as [x1, y1, x2, y2] with a label anchor. */
 const ROADS = [
   { d: 'M118 -40 L140 900', label: 'WELLBORN RD', lx: 112, ly: 590, rot: 88.6 },
@@ -185,6 +188,7 @@ export function CampusMap({
   pins = CAMPUS_PINS,
   overlay,
   onSelect,
+  you = true,
 }: {
   selected?: string
   shift?: number
@@ -193,6 +197,8 @@ export function CampusMap({
   overlay?: ReactNode
   /** Optional: called with a pin's id when it's tapped, so a screen can select it. */
   onSelect?: (id: string) => void
+  /** Draws the blue "you are here" dot. Off when location is unknown. */
+  you?: boolean
 }) {
   return (
     <div className="absolute inset-0 overflow-hidden bg-canvas">
@@ -266,10 +272,12 @@ export function CampusMap({
         {overlay}
 
         {/* You are here */}
-        <span aria-hidden className="absolute z-10 -translate-x-1/2 -translate-y-1/2" style={{ left: 150, top: 382 }}>
-          <span className="absolute -inset-[14px] rounded-full bg-tint-sky-ink/15" />
-          <span className="relative block size-[16px] rounded-full bg-tint-sky-ink ring-[3px] ring-white shadow-floating" />
-        </span>
+        {you ? (
+          <span aria-hidden className="absolute z-10 -translate-x-1/2 -translate-y-1/2" style={YOU_AT}>
+            <span className="absolute -inset-[14px] rounded-full bg-tint-sky-ink/15" />
+            <span className="relative block size-[16px] rounded-full bg-tint-sky-ink ring-[3px] ring-white shadow-floating" />
+          </span>
+        ) : null}
 
         {pins.map((p) => (
           <Pin key={p.id} pin={p} selected={p.id === selected} onSelect={onSelect} />

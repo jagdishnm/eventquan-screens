@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { Device } from '../../components/Device'
 import { Title } from '../../components/Title'
-import { CONCEPTS } from '.'
+import { CONCEPT_STATES, CONCEPTS } from '.'
 import { ConceptJourney } from './ConceptJourney'
 
 /** One concept screen at /explore/concept/:key/:n, e.g. /explore/concept/day/4. */
@@ -26,6 +26,20 @@ export function ConceptJourneyRoute() {
   return (
     <Title name={`Concept ${c?.n ?? ''}: ${c?.name ?? ''}`}>
       <ConceptJourney conceptKey={key} />
+    </Title>
+  )
+}
+
+/** One concept's failure state at /explore/concept/:key/state/:state, e.g. /explore/concept/live/state/offline. */
+export function ConceptStateRoute() {
+  const { key = 'live', state = 'offline' } = useParams()
+  const s = CONCEPT_STATES[key as keyof typeof CONCEPT_STATES]?.find((x) => x.key === state)
+  if (!s) return null
+  return (
+    <Title name={`${s.title}`}>
+      <Device bg={s.dark ? 'bg-night' : undefined}>
+        <s.Screen />
+      </Device>
     </Title>
   )
 }

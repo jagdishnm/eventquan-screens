@@ -26,32 +26,29 @@ const TODAY = [
 function KyleFieldToday() {
   return (
     <>
-      <div className="flex items-end gap-3">
-        <div className="min-w-0 flex-1">
-          <SheetTitle
-            id="place-title"
-            kicker={
-              <>
-                {/* The same maroon ground dot as the selected pin above: this sheet is that pin */}
-                <span aria-hidden className="size-[8px] rounded-full bg-maroon ring-2 ring-maroon/20" />
-                Texas A&amp;M · Athletics
-              </>
-            }
-          >
-            Kyle Field
-          </SheetTitle>
-          <p className="mt-1.5 flex items-center gap-1 text-small text-ink-2">
-            <Footprints aria-hidden size={13} className="text-maroon" />
-            <span className="tabular">12 min</span> walk · Home of the 12th Man
-          </p>
-        </div>
-        <img src="/img/kyle-field-exterior.jpg" alt="" className="size-[72px] shrink-0 rounded-thumb object-cover" />
-      </div>
+      {/* The venue's name is the hero; the bowl on the map above is its picture */}
+      <SheetTitle
+        id="place-title"
+        size="hero"
+        kicker={
+          <>
+            {/* The same maroon ground dot as the selected pin above: this sheet is that pin */}
+            <span aria-hidden className="size-[8px] rounded-full bg-maroon ring-2 ring-maroon/20" />
+            Texas A&amp;M · Athletics
+          </>
+        }
+      >
+        Kyle Field
+      </SheetTitle>
       <div className="mt-2 flex items-center gap-1.5">
         <Badge tone="node" node="tamu" />
         <Badge tone="soon" size="md">
           Gates <span className="tabular">4:00</span> PM
         </Badge>
+        <span className="ml-auto flex items-center gap-1 text-small text-ink-2">
+          <Footprints aria-hidden size={13} className="text-maroon" />
+          <span className="tabular">12 min</span> walk
+        </span>
       </div>
 
       <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">

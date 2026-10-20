@@ -10,7 +10,7 @@ import { AggieMark, MatchupThumb } from '../../../components/Marks'
 import { StatusBar } from '../../../components/StatusBar'
 import { TabBar } from '../../../components/TabBar'
 import { CAMPUS_PINS, CampusMap, type MapPinSpec } from '../../CampusMap'
-import { CapsuleTitle, MapCapsule, MapScrim, MapSheet, SheetTitle } from './MapChrome'
+import { CapsuleTitle, MapCapsule, MapScrim, MapSheet, SheetCount } from './MapChrome'
 
 /** The map slides up when the selected pin would sit under the sheet. */
 const SHIFT: Record<string, number> = { tailgate: -60 }
@@ -147,16 +147,18 @@ export function MapHome() {
       </MapCapsule>
 
       <MapSheet labelledBy="home-now">
-        <SheetTitle
+        {/* The count is the hero: three things worth walking to, one of them live */}
+        <SheetCount
           id="home-now"
+          count={NOW.length}
           kicker={
             <>
-              <LiveDot /> Sat, Oct 12 · <span className="tabular">4</span> live
+              <LiveDot /> Sat, Oct 12 · <span className="tabular">1</span> live
             </>
           }
         >
           Around you now
-        </SheetTitle>
+        </SheetCount>
 
         <ul className="mt-3 overflow-hidden rounded-card bg-white shadow-raised">
           {NOW.map((n) => {

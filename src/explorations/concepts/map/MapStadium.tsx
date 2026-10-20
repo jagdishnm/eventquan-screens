@@ -1,6 +1,6 @@
 import { Check, DoorOpen, Hamburger, Navigation, Toilet, Users } from 'lucide-react'
 import { useState } from 'react'
-import { Avatar, Faces } from '../../../components/Avatar'
+import { Avatar } from '../../../components/Avatar'
 import { Badge } from '../../../components/Badge'
 import { Button } from '../../../components/Button'
 import { Chip } from '../../../components/Chip'
@@ -22,7 +22,7 @@ const HALF = 80
 
 type Seg = 0 | 1 | 2 | 3 // east straight (N→S), south arc, west straight (S→N), north arc
 
-function pt(seg: Seg, f: number, r: number): [number, number] {
+export function pt(seg: Seg, f: number, r: number): [number, number] {
   if (seg === 0) return [CX + r, CY - HALF + f * 2 * HALF]
   if (seg === 2) return [CX - r, CY + HALF - f * 2 * HALF]
   const a = (seg === 1 ? 0 : Math.PI) + f * Math.PI
@@ -56,7 +56,7 @@ function wedge(s: Section, r0: number, r1: number) {
   return `M${[...inner, ...outer].map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join(' L')} Z`
 }
 
-function centre(n: number, depth = 0.5): [number, number] {
+export function centre(n: number, depth = 0.5): [number, number] {
   const ring = n >= 300 ? UPPER : LOWER
   const s = ring.list.find((x) => x.n === n)!
   return pt(s.seg, (s.i + 0.5) / PER[s.seg], ring.r0 + (ring.r1 - ring.r0) * depth)
@@ -64,7 +64,7 @@ function centre(n: number, depth = 0.5): [number, number] {
 
 type Friend = { initials: string; name: string; color: 1 | 2 | 3 | 4 | 5 | 6; sec: number; row: number }
 
-const CREW: Friend[] = [
+export const CREW: Friend[] = [
   { initials: 'MR', name: 'Maya', color: 2, sec: 128, row: 14 },
   { initials: 'AL', name: 'Alex', color: 3, sec: 122, row: 9 },
   { initials: 'BN', name: 'Brooke', color: 6, sec: 131, row: 30 },
@@ -77,11 +77,11 @@ const LINES = [
 ] as const
 type LineId = (typeof LINES)[number]['id']
 
-const ME = centre(125, 0.55)
-const GATE: [number, number] = pt(3, 0.82, 146)
-const CONCOURSE = 123
+export const ME = centre(125, 0.55)
+export const GATE: [number, number] = pt(3, 0.82, 146)
+export const CONCOURSE = 123
 
-function Bowl({ highlight }: { highlight: Set<number> }) {
+export function Bowl({ highlight }: { highlight: Set<number> }) {
   const fieldTop = CY - 126
   return (
     <svg aria-hidden width="393" height="852" viewBox="0 0 393 852" className="absolute inset-0">
@@ -323,14 +323,12 @@ export function MapStadium() {
         <SheetTitle
           id="seat-title"
           dark
+          size="hero"
           kicker="Your seat · east side, the 50"
           aside={
-            <span className="flex flex-col items-end gap-1">
-              <span className="font-semibold text-white tabular">Row 22 · Seat 9</span>
-              <span className="flex items-center gap-1.5">
-                <Faces n={4} size={18} surface="photo" />
-                <span className="tabular">4</span> crew
-              </span>
+            <span className="flex flex-col items-end font-semibold leading-tight text-white tabular">
+              <span>Row 22</span>
+              <span>Seat 9</span>
             </span>
           }
         >

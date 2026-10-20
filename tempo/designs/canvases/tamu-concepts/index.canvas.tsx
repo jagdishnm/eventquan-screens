@@ -7,6 +7,10 @@ import {
   Day4,
   Day5,
   Day6,
+  DayStateLocation,
+  DayStateOffline,
+  DayStateQuiet,
+  DayStateSignInError,
   JourneyDay,
   JourneyLive,
   JourneyMap,
@@ -17,12 +21,20 @@ import {
   Live4,
   Live5,
   Live6,
+  LiveStateLocation,
+  LiveStateOffline,
+  LiveStateQuiet,
+  LiveStateSignInError,
   Map1,
   Map2,
   Map3,
   Map4,
   Map5,
   Map6,
+  MapStateLocation,
+  MapStateOffline,
+  MapStateQuiet,
+  MapStateSignInError,
   Print1,
   Print2,
   Print3,
@@ -30,10 +42,10 @@ import {
   Print5,
   Print6,
   Print7,
-  LiveStateLocation,
-  LiveStateOffline,
-  LiveStateQuiet,
-  LiveStateSignInError,
+  PrintStateLocation,
+  PrintStateOffline,
+  PrintStateQuiet,
+  PrintStateSignInError,
 } from './Screens'
 
 /**
@@ -222,30 +234,102 @@ export default function EventquanExplorationsCanvas() {
         component={JourneyPrint}
         layout={{ x: 0, y: 11172 }}
       />
-      {/* The lead concept meets the real world: error, permission, offline and empty states beside its row */}
+      {/* Each concept meets the real world: error, permission, offline and empty states beside its row */}
+      <Storyboard
+        id="day-state-sign-in-error"
+        name="1 The Day · State — Wrong email"
+        component={DayStateSignInError}
+        layout={{ x: 3700, y: 0 }}
+      />
+      <Storyboard
+        id="day-state-location"
+        name="1 The Day · State — Before the location prompt"
+        component={DayStateLocation}
+        layout={{ x: 4207, y: 0 }}
+      />
+      <Storyboard
+        id="day-state-offline"
+        name="1 The Day · State — No signal at Kyle Field"
+        component={DayStateOffline}
+        layout={{ x: 4714, y: 0 }}
+      />
+      <Storyboard
+        id="day-state-quiet"
+        name="1 The Day · State — A quiet Tuesday"
+        component={DayStateQuiet}
+        layout={{ x: 5221, y: 0 }}
+      />
+      <Storyboard
+        id="map-state-sign-in-error"
+        name="2 The Map · State — Wrong email"
+        component={MapStateSignInError}
+        layout={{ x: 3700, y: 3400 }}
+      />
+      <Storyboard
+        id="map-state-location"
+        name="2 The Map · State — Before the location prompt"
+        component={MapStateLocation}
+        layout={{ x: 4207, y: 3400 }}
+      />
+      <Storyboard
+        id="map-state-offline"
+        name="2 The Map · State — No signal at Kyle Field"
+        component={MapStateOffline}
+        layout={{ x: 4714, y: 3400 }}
+      />
+      <Storyboard
+        id="map-state-quiet"
+        name="2 The Map · State — A quiet Tuesday"
+        component={MapStateQuiet}
+        layout={{ x: 5221, y: 3400 }}
+      />
       <Storyboard
         id="live-state-sign-in-error"
         name="3 The 12th Man, live · State — Wrong email"
         component={LiveStateSignInError}
-        layout={{ x: 3300, y: 6800 }}
+        layout={{ x: 3700, y: 6800 }}
       />
       <Storyboard
         id="live-state-location"
         name="3 The 12th Man, live · State — Before the location prompt"
         component={LiveStateLocation}
-        layout={{ x: 3807, y: 6800 }}
+        layout={{ x: 4207, y: 6800 }}
       />
       <Storyboard
         id="live-state-offline"
         name="3 The 12th Man, live · State — No signal at Kyle Field"
         component={LiveStateOffline}
-        layout={{ x: 4314, y: 6800 }}
+        layout={{ x: 4714, y: 6800 }}
       />
       <Storyboard
         id="live-state-quiet"
         name="3 The 12th Man, live · State — A quiet Tuesday"
         component={LiveStateQuiet}
-        layout={{ x: 4821, y: 6800 }}
+        layout={{ x: 5221, y: 6800 }}
+      />
+      <Storyboard
+        id="print-state-sign-in-error"
+        name="4 Aggieland in print · State — Wrong email"
+        component={PrintStateSignInError}
+        layout={{ x: 3700, y: 10200 }}
+      />
+      <Storyboard
+        id="print-state-location"
+        name="4 Aggieland in print · State — Before the location prompt"
+        component={PrintStateLocation}
+        layout={{ x: 4207, y: 10200 }}
+      />
+      <Storyboard
+        id="print-state-offline"
+        name="4 Aggieland in print · State — No signal at Kyle Field"
+        component={PrintStateOffline}
+        layout={{ x: 4714, y: 10200 }}
+      />
+      <Storyboard
+        id="print-state-quiet"
+        name="4 Aggieland in print · State — A quiet Tuesday"
+        component={PrintStateQuiet}
+        layout={{ x: 5221, y: 10200 }}
       />
     </Canvas>
   )
