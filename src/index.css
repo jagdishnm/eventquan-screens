@@ -1,0 +1,331 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Texas A&M skin */
+  --color-maroon: #500000;
+  --color-maroon-deep: #3a0000;
+  --color-maroon-ink: #2a0606;
+  --color-maroon-soft: #f6eded;
+  --color-maroon-line: #732f2f;
+
+  /* EventQuan primary action */
+  --color-gold: #ffcd1c;
+  --color-gold-press: #f0bc00;
+  --color-gold-ink: #1c1600;
+
+  /* Regional node colours */
+  --color-bryan: #1d5fb0;
+  --color-bryan-soft: #e8f0fb;
+  --color-cstat: #16775a;
+  --color-cstat-soft: #e5f4ee;
+
+  /* Neutrals */
+  --color-canvas: #f2f2f5;
+  --color-ink: #16161a;
+  --color-ink-2: #4a4a52;
+  --color-ink-3: #6b6b74;
+  --color-hairline: #e6e6eb;
+  --color-live: #e5322d;
+  /* Solid badges carrying white text: 5.05:1 (live dots stay --color-live) */
+  --color-live-strong: #d42a25;
+  --color-ok: #178048;
+
+  /* Game mode */
+  --color-night: #0e0d0f;
+  --color-night-2: #1a181c;
+  --color-night-3: #262329;
+
+  /* LSU (opponent) */
+  --color-lsu: #461d7c;
+  --color-lsu-gold: #fdd023;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', 'SF Pro Display', system-ui, sans-serif;
+  --font-slab: 'Zilla Slab', Georgia, serif;
+
+  /* Pitch page: a printed gameday program */
+  --font-poster: 'Big Shoulders Display', 'Barlow Condensed', sans-serif;
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --color-paper: #f4eee3;
+  --color-paper-2: #ebe2d2;
+  --color-ink-warm: #1f1713;
+  --color-ink-warm-2: #5c5249;
+
+  /* Motion: one family of curves, never the browser defaults */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: #1b1b1f;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'ss01', 'cv11';
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-maroon-ink);
+}
+
+/*
+ * Two-tone focus ring: a gold halo hugging the control and a maroon outline outside it.
+ * Gold reads on maroon and dark screens (10:1+), maroon reads on white and grey (15:1).
+ */
+:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--color-gold);
+  border-radius: 10px;
+}
+/* Text fields show the caret, as on iOS — no ring */
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Every press settles with the same curve */
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+  transition-timing-function: var(--ease-out-expo);
+}
+.press {
+  transition: transform 260ms var(--ease-out-expo);
+}
+.press:active {
+  transform: scale(0.97);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes live-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(229 50 45 / 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgb(229 50 45 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(229 50 45 / 0);
+  }
+}
+.live-dot {
+  animation: live-pulse 1.8s var(--ease-out-quint) infinite;
+}
+
+@keyframes skin-flood {
+  from {
+    clip-path: circle(0% at 50% 62%);
+  }
+  to {
+    clip-path: circle(150% at 50% 62%);
+  }
+}
+.skin-flood {
+  animation: skin-flood 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  animation: rise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/*
+ * Choreographed entrance. Children of .stagger rise in sequence:
+ * structure first, then content in reading order, 55ms apart.
+ */
+.stagger > * {
+  animation: rise 640ms var(--ease-out-expo) both;
+}
+.stagger > *:nth-child(1) {
+  animation-delay: 60ms;
+}
+.stagger > *:nth-child(2) {
+  animation-delay: 115ms;
+}
+.stagger > *:nth-child(3) {
+  animation-delay: 170ms;
+}
+.stagger > *:nth-child(4) {
+  animation-delay: 225ms;
+}
+.stagger > *:nth-child(5) {
+  animation-delay: 280ms;
+}
+.stagger > *:nth-child(6) {
+  animation-delay: 335ms;
+}
+.stagger > *:nth-child(7) {
+  animation-delay: 390ms;
+}
+.stagger > *:nth-child(8) {
+  animation-delay: 445ms;
+}
+.stagger > *:nth-child(n + 9) {
+  animation-delay: 500ms;
+}
+
+/* Live numbers settle into place rather than appearing */
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+.settle {
+  animation: settle 820ms var(--ease-out-expo) both;
+}
+
+/* The straw: a gold thread drawn across the journey board */
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.draw {
+  transform-origin: left center;
+  animation: draw 1100ms var(--ease-in-out-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot,
+  .skin-flood,
+  .rise,
+  .stagger > *,
+  .settle,
+  .draw {
+    animation: none;
+  }
+}
+
+/* ---------- Pitch page ---------- */
+
+/* Printed-paper grain: fractal noise, multiplied into the page */
+.paper-grain {
+  position: relative;
+}
+.paper-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.27 0 0 0 0 0.2 0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Ticket perforation along an edge */
+.perf-top {
+  background-image: radial-gradient(circle at 8px -2px, transparent 5px, currentColor 5.5px);
+  background-size: 16px 10px;
+  background-repeat: repeat-x;
+}
+
+/* Outline numerals, like a jersey number printed in one ink */
+.stroke-maroon {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-maroon);
+}
+.stroke-paper {
+  color: transparent;
+  -webkit-text-stroke: 2px rgb(244 238 227 / 0.5);
+}
+
+/* Scroll reveal: content rises into place once, on the shared expo curve */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 900ms var(--ease-out-expo),
+    transform 900ms var(--ease-out-expo);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* The straw: the stack of live events, seen at an angle */
+.sheet-stack {
+  perspective: 1400px;
+}
+.sheet {
+  transform: rotateX(58deg) rotateZ(-34deg);
+  transform-style: preserve-3d;
+}
+@keyframes straw-in {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+.straw {
+  transform-origin: top center;
+  animation: straw-in 1300ms var(--ease-in-out-expo) 500ms both;
+}
+@keyframes sheet-drop {
+  from {
+    opacity: 0;
+    translate: 0 -40px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+.sheet-drop {
+  animation: sheet-drop 800ms var(--ease-out-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .straw,
+  .sheet-drop {
+    animation: none;
+  }
+}

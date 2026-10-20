@@ -1,0 +1,36 @@
+{
+  "name": "app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "format": "prettier --write src",
+    "export": "scripts/export-pngs.sh",
+    "record": "scripts/record-walkthrough.sh"
+  },
+  "dependencies": {
+    "lucide-react": "^1.59.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "playwright-core": "1.55.1",
+    "prettier": "^3.9.10",
+    "tailwindcss": "^4.3.3",
+    "tempo-sdk": "sdk-v2-latest",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  },
+  "packageManager": "pnpm@11.5.2+sha512.71c631e382066efc25625d5cf029075de07b61b37f6e27350fbd84b1bda5864c8c1967adc280776b45c30a715c0359a3be08fef42d5bb09e2b99029979692916"
+}
