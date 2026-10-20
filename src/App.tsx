@@ -2,6 +2,11 @@ import type { ReactNode } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Device } from './components/Device'
 import { Title } from './components/Title'
+import { EventFinderMap } from './explorations/EventFinderMap'
+import { GameDayScoreboard } from './explorations/GameDayScoreboard'
+import { HomeDayPlan } from './explorations/HomeDayPlan'
+import { PlaceSheet } from './explorations/PlaceSheet'
+import { QuickEventThread } from './explorations/QuickEventThread'
 import { Pitch } from './pitch/Pitch'
 import { EventFinder } from './screens/EventFinder'
 import { GameDay } from './screens/GameDay'
@@ -40,6 +45,17 @@ export default function App() {
             <Pitch />
           </Title>
         }
+      />
+      <Route path="/explore/home-day-plan" element={screen('Exploration: Your Saturday', <HomeDayPlan />)} />
+      <Route path="/explore/events-map" element={screen('Exploration: Events on the map', <EventFinderMap />)} />
+      <Route path="/explore/kyle-field-sheet" element={screen('Exploration: Kyle Field sheet', <PlaceSheet />)} />
+      <Route
+        path="/explore/gameday-scoreboard"
+        element={screen('Exploration: Game day scoreboard', <GameDayScoreboard />, 'bg-night')}
+      />
+      <Route
+        path="/explore/quick-event-thread"
+        element={screen('Exploration: Quick Event in chat', <QuickEventThread />)}
       />
       <Route path="/welcome" element={screen('Sign in', <WelcomeEmail />, 'bg-[#0d0e12]')} />
       <Route path="/welcome/campus" element={screen('Welcome, Aggie', <WelcomeCampus />, 'bg-[#0d0e12]')} />

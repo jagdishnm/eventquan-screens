@@ -1,21 +1,4 @@
-import {
-  Bell,
-  Bus,
-  CalendarClock,
-  CalendarDays,
-  Grid2x2,
-  IdCard,
-  Map,
-  MessageCircle,
-  Mic,
-  Plus,
-  Search,
-  ShieldCheck,
-  Sun,
-  Trophy,
-  Users,
-  Utensils,
-} from 'lucide-react'
+import { Bell, Mic, Search, Sun } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Screen, ScrollBody } from '../components/Device'
@@ -26,24 +9,9 @@ import { Avatar, Faces } from '../components/Avatar'
 import { Badge, LiveDot } from '../components/Badge'
 import { Button } from '../components/Button'
 import { EventRow, EventRowGroup } from '../components/EventCard'
-import { Tile, type TileProps } from '../components/Tile'
+import { Tile } from '../components/Tile'
+import { TILES } from '../data/homeTiles'
 import { IconButton, SectionHeader } from '../components/ui'
-
-const TILES: TileProps[] = [
-  // Only tiles with something live right now carry a status line, so the live ones stand out.
-  { label: 'Class Schedule', Icon: CalendarClock, tint: 'blue' },
-  { label: 'Campus Map', Icon: Map, tint: 'green', status: '4 on now', statusTone: 'live', to: '/places/kyle-field' },
-  { label: 'Dining', Icon: Utensils, tint: 'amber', status: 'Sbisa open', statusTone: 'ok' },
-  { label: 'Transit', Icon: Bus, tint: 'indigo', status: 'Rt 40 · 12 min' },
-  { label: 'Events', Icon: CalendarDays, tint: 'red', to: '/events' },
-  { label: 'Organizations', Icon: Users, tint: 'purple' },
-  { label: 'Athletics', Icon: Trophy, emphasis: 'solid', status: 'Kickoff 6 PM', flag: 'GAMEDAY', to: '/gameday' },
-  { label: 'Safety', Icon: ShieldCheck, tint: 'teal' },
-  { label: 'Quick Event', Icon: Plus, emphasis: 'outline', to: '/quick-event' },
-  { label: 'Messages', Icon: MessageCircle, tint: 'sky' },
-  { label: 'Aggie ID', Icon: IdCard, tint: 'maroon' },
-  { label: 'More', Icon: Grid2x2, tint: 'neutral' },
-]
 
 const LIVE_NOW = [
   {
