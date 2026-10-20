@@ -39,6 +39,9 @@
   --color-lsu: #461d7c;
   --color-lsu-gold: #fdd023;
 
+  /* Texas A&M as a team (scoreboards, matchups): stays maroon whatever the university skin is */
+  --color-tamu: #500000;
+
   /* Status — the only colours a badge, pill or inline status may use */
   --color-live-ink: #c4231e; /* live text on a live/10 tint: 5.05:1 */
   --color-soon: #fff4d6; /* "Opens in…", Quick Event tag */
@@ -152,6 +155,70 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+
+  /* concept: day */
+  /* The hero clock on every "The Day" screen: one time in the display face, a step above display-xl */
+  --text-display-clock: 84px;
+  /* The NOW halo on the rail: a slow breath on the quint curve (Tailwind's ping is linear-ish and too fast) */
+  --animate-now-pulse: now-pulse 2.4s var(--ease-out-quint) infinite;
+  @keyframes now-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    70%,
+    100% {
+      transform: scale(2.1);
+      opacity: 0;
+    }
+  }
+
+  /* concept: print */
+  /* Printed nameplates in the poster face ("Howdy.", "Kyle Field", the yell card): a newspaper-masthead step above display-xl */
+  --text-masthead: 80px;
+
+  /* concept: live */
+  /* The scoreboard count on every "12th Man, live" header: 10.4:1 against the 10px freshness caption */
+  --text-scoreboard: 104px;
+
+  /* concept: live states */
+  /* iOS system blue, for the native location alert drawn over the pre-permission screen */
+  --color-ios-blue: #007aff;
+
+  /* concept: map */
+  /* The one hero numeral on a Map sheet (223 events found, Sec 125): 10:1 against the 11px kicker */
+  --text-display-map: 112px;
+  /* Your seat and the dropped pin breathe on the quint curve, not Tailwind's ping */
+  --animate-map-pulse: map-pulse 2.2s var(--ease-out-quint) infinite;
+  @keyframes map-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    70%,
+    100% {
+      transform: scale(1.9);
+      opacity: 0;
+    }
+  }
+}
+
+/*
+ * University skins. A skin swaps only the brand colours: every bg-maroon, text-maroon, gold
+ * action and maroon tint below it re-renders in that school's colours. Team colours (tamu, lsu)
+ * stay fixed so a matchup still shows the real teams. LSU values from lsu.edu: purple #461D7C,
+ * gold #FDD023.
+ */
+.skin-lsu {
+  --color-maroon: #461d7c;
+  --color-maroon-deep: #35145f;
+  --color-maroon-ink: #1d0a36;
+  --color-maroon-soft: #f1ecf7;
+  --color-maroon-line: #6a478a;
+  --color-tint-maroon: #f2eef8;
+  --color-gold: #fdd023;
+  --color-gold-press: #eabf0e;
+  --color-avatar-1: #5b2c8f;
 }
 
 html,

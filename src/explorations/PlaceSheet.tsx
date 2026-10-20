@@ -1,12 +1,14 @@
 import { Bookmark, ChevronLeft, ChevronRight, Footprints, Share } from 'lucide-react'
+import type { ReactNode } from 'react'
 import { Badge } from '../components/Badge'
 import { Button } from '../components/Button'
 import { Screen } from '../components/Device'
 import { StatusBar } from '../components/StatusBar'
 import { TabBar } from '../components/TabBar'
 import { IconButton } from '../components/ui'
-import { CAMPUS_PINS, CampusMap } from './CampusMap'
+import { CAMPUS_PINS, CampusMap, type MapPinSpec } from './CampusMap'
 import { GameStrip } from './GameStrip'
+import { Grabber, MapCapsule, MapScrim, SheetTitle } from './concepts/map/MapChrome'
 
 const STATS = [
   { v: '2.1K', l: 'here now' },
@@ -20,104 +22,140 @@ const TODAY = [
   { t: '3:45', title: 'Corps March-In', meta: 'Quad → North End Zone', img: '/img/aggie-band.jpg' },
 ]
 
+/** Kyle Field on gameday morning: the venue, its Directions, and what's on there today. */
+function KyleFieldToday() {
+  return (
+    <>
+      <div className="flex items-end gap-3">
+        <div className="min-w-0 flex-1">
+          <SheetTitle
+            id="place-title"
+            kicker={
+              <>
+                {/* The same maroon ground dot as the selected pin above: this sheet is that pin */}
+                <span aria-hidden className="size-[8px] rounded-full bg-maroon ring-2 ring-maroon/20" />
+                Texas A&amp;M · Athletics
+              </>
+            }
+          >
+            Kyle Field
+          </SheetTitle>
+          <p className="mt-1.5 flex items-center gap-1 text-small text-ink-2">
+            <Footprints aria-hidden size={13} className="text-maroon" />
+            <span className="tabular">12 min</span> walk · Home of the 12th Man
+          </p>
+        </div>
+        <img src="/img/kyle-field-exterior.jpg" alt="" className="size-[72px] shrink-0 rounded-thumb object-cover" />
+      </div>
+      <div className="mt-2 flex items-center gap-1.5">
+        <Badge tone="node" node="tamu" />
+        <Badge tone="soon" size="md">
+          Gates <span className="tabular">4:00</span> PM
+        </Badge>
+      </div>
+
+      <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
+        <Button className="w-full">Directions</Button>
+        <Button variant="secondary" aria-label="Save Kyle Field" className="px-4">
+          <Bookmark size={17} />
+        </Button>
+      </div>
+
+      <h3 className="mt-3.5 text-card font-semibold tracking-snug">On here today</h3>
+      <ol className="mt-1.5 overflow-hidden rounded-card bg-white shadow-raised">
+        {TODAY.map((e) => (
+          <li key={e.t} className="flex items-center gap-3 border-b border-hairline px-3 py-2 last:border-b-0">
+            <span className="w-[36px] text-meta font-bold tabular text-ink-2">{e.t}</span>
+            <img src={e.img} alt="" className="size-[40px] shrink-0 rounded-well object-cover" />
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-control font-semibold">{e.title}</span>
+              <span className="block truncate text-meta text-ink-3">{e.meta}</span>
+            </span>
+            {e.live ? <Badge tone="live" size="sm" /> : null}
+          </li>
+        ))}
+      </ol>
+
+      <GameStrip className="mt-3" meta="Kickoff 6:00 PM · 125K attending · 23 friends" />
+
+      <dl className="mt-3 grid grid-cols-3 divide-x divide-hairline rounded-card bg-white py-2.5 shadow-raised">
+        {STATS.map((s) => (
+          <div key={s.l} className="flex flex-col-reverse items-center">
+            <dt className="text-meta text-ink-3">{s.l}</dt>
+            <dd className="font-display text-display-sm font-bold leading-none tabular">{s.v}</dd>
+          </div>
+        ))}
+      </dl>
+    </>
+  )
+}
+
 /**
  * Exploration · Campus node as a place card over the map.
  * After Cash App's and Bump's place sheets: you never leave the map. The venue rises over it with
- * how busy it is, who's going and what's on there today; the header names the node above it.
+ * how busy it is, who's going and what's on there today. The header is The Map's floating
+ * capsule: back, the node trail above this place, the place's name, and share.
  */
-export function PlaceSheet() {
+export function PlaceSheet({
+  trail = ['Texas A&M', 'Athletics', 'Kyle Field'],
+  selected = 'kyle',
+  shift = -118,
+  pins = CAMPUS_PINS.filter((p) => ['msc', 'rec', 'market', 'kyle'].includes(p.id)),
+  overlay,
+  sheetHeight = 520,
+  labelledBy = 'place-title',
+  children,
+}: {
+  /** Node path in the header; the last entry is this page. */
+  trail?: string[]
+  selected?: string
+  shift?: number
+  pins?: MapPinSpec[]
+  overlay?: ReactNode
+  sheetHeight?: number
+  /** Id of the sheet's heading. */
+  labelledBy?: string
+  /** Replaces the sheet body (Kyle Field on gameday morning). */
+  children?: ReactNode
+} = {}) {
+  const here = trail[trail.length - 1]
+  const above = trail.slice(0, -1)
   return (
     <Screen>
-      <StatusBar />
-      <CampusMap
-        selected="kyle"
-        shift={-118}
-        pins={CAMPUS_PINS.filter((p) => ['msc', 'rec', 'market', 'kyle'].includes(p.id))}
-      />
+      <CampusMap selected={selected} shift={shift} pins={pins} overlay={overlay} />
+      <MapScrim />
+      <StatusBar tone="dark" />
 
-      <header className="absolute inset-x-0 top-0 z-20 bg-maroon px-4 pb-2 pt-[54px] text-white">
-        <div className="flex h-[44px] items-center justify-between">
-          <IconButton label="Back to map">
-            <ChevronLeft size={20} />
-          </IconButton>
-          {/* Node above this one: event first, node second */}
-          <nav aria-label="Node" className="flex items-center gap-1 text-control font-semibold">
-            <span className="text-white/60">Texas A&amp;M</span>
-            <ChevronRight aria-hidden size={14} className="text-white/40" />
-            <span className="text-white/60">Athletics</span>
-            <ChevronRight aria-hidden size={14} className="text-white/40" />
-            <span aria-current="page">Kyle Field</span>
-          </nav>
-          <IconButton label="Share Kyle Field">
-            <Share size={17} />
-          </IconButton>
-        </div>
-      </header>
-
-      <section
-        aria-labelledby="place-title"
-        className="absolute inset-x-0 bottom-0 z-20 flex h-[520px] flex-col rounded-t-sheet bg-canvas pt-2.5 shadow-overlay"
-      >
-        <div aria-hidden className="mx-auto h-[5px] w-[38px] rounded-full bg-black/15" />
-        <div className="no-scrollbar flex-1 overflow-y-auto px-4 pb-[100px] pt-3">
-          <div className="flex items-center gap-3">
-            <img
-              src="/img/kyle-field-exterior.jpg"
-              alt=""
-              className="size-[76px] shrink-0 rounded-thumb object-cover"
-            />
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <Badge tone="node" node="tamu" />
-                <Badge tone="soon" size="md">
-                  Gates 4:00 PM
-                </Badge>
-              </div>
-              <h2
-                id="place-title"
-                className="mt-1 font-display text-display-lg font-extrabold uppercase italic leading-[0.9] tracking-[-0.01em]"
-              >
-                Kyle Field
-              </h2>
-              <p className="mt-0.5 flex items-center gap-1 text-small text-ink-2">
-                <Footprints size={13} className="text-maroon" /> 12 min walk · Home of the 12th Man
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
-            <Button className="w-full">Directions</Button>
-            <Button variant="secondary" aria-label="Save Kyle Field" className="px-4">
-              <Bookmark size={17} />
-            </Button>
-          </div>
-
-          <h3 className="mt-3.5 text-card font-semibold tracking-snug">On here today</h3>
-          <ol className="mt-1.5 overflow-hidden rounded-card bg-white shadow-raised">
-            {TODAY.map((e) => (
-              <li key={e.t} className="flex items-center gap-3 border-b border-hairline px-3 py-2 last:border-b-0">
-                <span className="w-[36px] text-meta font-bold tabular text-ink-2">{e.t}</span>
-                <img src={e.img} alt="" className="size-[40px] shrink-0 rounded-well object-cover" />
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate text-control font-semibold">{e.title}</span>
-                  <span className="block truncate text-meta text-ink-3">{e.meta}</span>
-                </span>
-                {e.live ? <Badge tone="live" size="sm" /> : null}
+      <MapCapsule>
+        <IconButton label="Back to map">
+          <ChevronLeft size={20} />
+        </IconButton>
+        {/* Node above this one, then this place: event first, node second */}
+        <nav aria-label="Node" className="min-w-0 flex-1 leading-tight">
+          <ol className="flex min-w-0 items-center gap-0.5 text-meta font-semibold text-white/70">
+            {above.map((t) => (
+              <li key={t} className="flex min-w-0 items-center gap-0.5">
+                <span className="truncate">{t}</span>
+                <ChevronRight aria-hidden size={12} className="shrink-0 text-white/40" />
               </li>
             ))}
           </ol>
+          <p aria-current="page" className="truncate text-emphasis font-bold tracking-snug text-white">
+            {here}
+          </p>
+        </nav>
+        <IconButton label={`Share ${here}`}>
+          <Share size={17} />
+        </IconButton>
+      </MapCapsule>
 
-          <GameStrip className="mt-3" meta="Kickoff 6:00 PM · 125K attending · 23 friends" />
-
-          <dl className="mt-3 grid grid-cols-3 divide-x divide-hairline rounded-card bg-white py-2.5 shadow-raised">
-            {STATS.map((s) => (
-              <div key={s.l} className="flex flex-col-reverse items-center">
-                <dt className="text-meta text-ink-3">{s.l}</dt>
-                <dd className="font-display text-display-sm font-bold leading-none tabular">{s.v}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+      <section
+        aria-labelledby={labelledBy}
+        className="absolute inset-x-0 bottom-0 z-20 flex flex-col rounded-t-sheet bg-canvas pt-2.5 shadow-overlay"
+        style={{ height: sheetHeight }}
+      >
+        <Grabber />
+        <div className="no-scrollbar flex-1 overflow-y-auto px-4 pb-[100px] pt-1">{children ?? <KyleFieldToday />}</div>
       </section>
       <TabBar active="map" />
     </Screen>

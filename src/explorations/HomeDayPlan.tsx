@@ -1,4 +1,5 @@
 import { Bell, Mic, Search, Sun } from 'lucide-react'
+import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Avatar } from '../components/Avatar'
 import { Badge, LiveDot } from '../components/Badge'
@@ -7,7 +8,7 @@ import { Screen, ScrollBody } from '../components/Device'
 import { AggieMark } from '../components/Marks'
 import { StatusBar } from '../components/StatusBar'
 import { TabBar } from '../components/TabBar'
-import { Tile } from '../components/Tile'
+import { Tile, type TileProps } from '../components/Tile'
 import { IconButton } from '../components/ui'
 import { NODE_META, type Node } from '../data/events'
 import { TILES } from '../data/homeTiles'
@@ -48,12 +49,96 @@ const STOPS: Stop[] = [
 
 const RAIL_DOT = { live: 'bg-live ring-live/20', soon: 'bg-gold ring-gold/30', none: 'bg-white ring-hairline-strong' }
 
+/** Your Saturday: the day as a timeline, overlapping the header like his cards do. */
+function SaturdayCard() {
+  return (
+    <section
+      aria-labelledby="day-plan"
+      className="relative mx-4 -mt-[44px] rounded-sheet bg-white px-3 pb-3 pt-3 shadow-floating"
+    >
+      <div className="flex items-center justify-between px-1">
+        <h2 id="day-plan" className="text-micro font-bold tracking-caps text-maroon">
+          YOUR SATURDAY · SAT, OCT 12
+        </h2>
+        <span className="flex items-center gap-1.5 text-meta font-semibold text-ink-2">
+          <LiveDot />4 happening now
+        </span>
+      </div>
+
+      <ol className="relative mt-1.5">
+        <span aria-hidden className="absolute bottom-[84px] left-[45px] top-5 w-[2px] rounded-full bg-hairline" />
+        {STOPS.map((s) => (
+          <li key={s.title}>
+            <Link to="/events" className="flex items-center gap-2.5 rounded-thumb py-1.5 active:bg-press">
+              <span
+                className={`w-[34px] shrink-0 text-right text-meta font-bold tabular ${s.state === 'live' ? 'text-live-ink' : 'text-ink-2'}`}
+              >
+                {s.time}
+              </span>
+              <span
+                className={`relative z-10 size-[10px] shrink-0 rounded-full ring-4 ${RAIL_DOT[s.state ?? 'none']}`}
+              />
+              <img src={s.img} alt="" className="size-[42px] shrink-0 rounded-well object-cover" />
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-body font-semibold tracking-snug">{s.title}</span>
+                <span className="flex items-center gap-1 truncate text-meta text-ink-3">
+                  <span className={`size-[6px] shrink-0 rounded-full ${NODE_META[s.node].dot}`} />
+                  <span className="truncate">
+                    {s.place} · {s.meta}
+                  </span>
+                </span>
+              </span>
+              {s.state === 'live' ? (
+                <Badge tone="live" size="sm" />
+              ) : s.state === 'soon' ? (
+                <Badge tone="soon" size="sm">
+                  {s.status}
+                </Badge>
+              ) : null}
+            </Link>
+          </li>
+        ))}
+
+        {/* The peak: kickoff, the one gold action on the screen */}
+        <li className="mt-1">
+          <GameStrip
+            lead={
+              <>
+                <span className="w-[34px] shrink-0 text-right text-meta font-bold tabular text-gold">6:00</span>
+                <span className="relative z-10 size-[10px] shrink-0 rounded-full bg-gold ring-4 ring-gold/30" />
+              </>
+            }
+            meta="Kyle Field"
+            trailing={
+              <Button as="span" size="sm" className="shrink-0">
+                Game Mode
+              </Button>
+            }
+          />
+        </li>
+      </ol>
+    </section>
+  )
+}
+
 /**
  * Exploration · University Home with "your Saturday" on top of his launcher.
  * After Spotify's Live Events list: the day reads as a short timeline that builds to kickoff,
  * placed between his header and his twelve tiles, which stay exactly as drawn.
  */
-export function HomeDayPlan() {
+export function HomeDayPlan({
+  greeting = 'Good Morning, Aggie!',
+  weather,
+  day,
+  tiles = TILES,
+}: {
+  greeting?: string
+  /** The line under the greeting. Defaults to this morning's weather. */
+  weather?: ReactNode
+  /** Replaces the "Your Saturday" card, e.g. the same card later in the day. */
+  day?: ReactNode
+  tiles?: TileProps[]
+} = {}) {
   return (
     <Screen>
       <StatusBar />
@@ -87,10 +172,14 @@ export function HomeDayPlan() {
               </div>
             </div>
 
-            <h1 className="mt-3 text-headline font-bold leading-[1.1] tracking-headline">Good Morning, Aggie!</h1>
+            <h1 className="mt-3 text-headline font-bold leading-[1.1] tracking-headline">{greeting}</h1>
             <div className="mt-1.5 flex items-center gap-1.5 text-control text-white/75">
-              <Sun size={15} className="text-gold" />
-              <span className="tabular">72°</span> Sunny · College Station, TX
+              {weather ?? (
+                <>
+                  <Sun size={15} className="text-gold" />
+                  <span className="tabular">72°</span> Sunny · College Station, TX
+                </>
+              )}
             </div>
 
             <div className="mt-3 flex h-[44px] items-center gap-2.5 rounded-thumb bg-white px-3.5 text-body text-ink-3 shadow-floating">
@@ -101,78 +190,12 @@ export function HomeDayPlan() {
           </div>
         </header>
 
-        {/* Your Saturday: the day as a timeline, overlapping the header like his cards do */}
-        <section
-          aria-labelledby="day-plan"
-          className="relative mx-4 -mt-[44px] rounded-sheet bg-white px-3 pb-3 pt-3 shadow-floating"
-        >
-          <div className="flex items-center justify-between px-1">
-            <h2 id="day-plan" className="text-micro font-bold tracking-caps text-maroon">
-              YOUR SATURDAY · SAT, OCT 12
-            </h2>
-            <span className="flex items-center gap-1.5 text-meta font-semibold text-ink-2">
-              <LiveDot />4 happening now
-            </span>
-          </div>
-
-          <ol className="relative mt-1.5">
-            <span aria-hidden className="absolute bottom-[84px] left-[45px] top-5 w-[2px] rounded-full bg-hairline" />
-            {STOPS.map((s) => (
-              <li key={s.title}>
-                <Link to="/events" className="flex items-center gap-2.5 rounded-thumb py-1.5 active:bg-press">
-                  <span
-                    className={`w-[34px] shrink-0 text-right text-meta font-bold tabular ${s.state === 'live' ? 'text-live-ink' : 'text-ink-2'}`}
-                  >
-                    {s.time}
-                  </span>
-                  <span
-                    className={`relative z-10 size-[10px] shrink-0 rounded-full ring-4 ${RAIL_DOT[s.state ?? 'none']}`}
-                  />
-                  <img src={s.img} alt="" className="size-[42px] shrink-0 rounded-well object-cover" />
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-body font-semibold tracking-snug">{s.title}</span>
-                    <span className="flex items-center gap-1 truncate text-meta text-ink-3">
-                      <span className={`size-[6px] shrink-0 rounded-full ${NODE_META[s.node].dot}`} />
-                      <span className="truncate">
-                        {s.place} · {s.meta}
-                      </span>
-                    </span>
-                  </span>
-                  {s.state === 'live' ? (
-                    <Badge tone="live" size="sm" />
-                  ) : s.state === 'soon' ? (
-                    <Badge tone="soon" size="sm">
-                      {s.status}
-                    </Badge>
-                  ) : null}
-                </Link>
-              </li>
-            ))}
-
-            {/* The peak: kickoff, the one gold action on the screen */}
-            <li className="mt-1">
-              <GameStrip
-                lead={
-                  <>
-                    <span className="w-[34px] shrink-0 text-right text-meta font-bold tabular text-gold">6:00</span>
-                    <span className="relative z-10 size-[10px] shrink-0 rounded-full bg-gold ring-4 ring-gold/30" />
-                  </>
-                }
-                meta="Kyle Field"
-                trailing={
-                  <Button as="span" size="sm" className="shrink-0">
-                    Game Mode
-                  </Button>
-                }
-              />
-            </li>
-          </ol>
-        </section>
+        {day ?? <SaturdayCard />}
 
         {/* His launcher grid, unchanged */}
         <section aria-label="Services" className="mx-4 mt-3 rounded-sheet bg-white px-1.5 pb-1.5 pt-1.5 shadow-raised">
           <div className="grid grid-cols-4 gap-y-1">
-            {TILES.map((t) => (
+            {tiles.map((t) => (
               <Tile key={t.label} {...t} />
             ))}
           </div>

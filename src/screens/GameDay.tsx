@@ -70,7 +70,7 @@ export function GameDay() {
             </p>
             <div aria-hidden className="mt-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <AggieMark size={44} className="max-[380px]:hidden" />
+                <AggieMark team size={44} className="max-[380px]:hidden" />
                 <div>
                   <div className="settle font-display text-[clamp(60px,19vw,78px)] font-bold leading-[0.8] tracking-[-1px] tabular">
                     17
@@ -181,7 +181,7 @@ export function GameDay() {
               </div>
             </div>
             <div className="flex gap-3 p-3">
-              <AggieMark size={34} />
+              <AggieMark team size={34} />
               <div className="min-w-0">
                 <div className="text-control font-semibold">
                   Aggie Football <span className="font-normal text-white/60">· 2m</span>

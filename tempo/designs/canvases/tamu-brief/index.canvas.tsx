@@ -1,4 +1,4 @@
-import { Canvas, Storyboard } from "tempo-sdk/canvas";
+import { Canvas, Storyboard } from 'tempo-sdk/canvas'
 import {
   EventFinderScreen,
   GameDayScreen,
@@ -7,11 +7,11 @@ import {
   KyleFieldScreen,
   QuickEventScreen,
   SignInScreen,
-} from "./Screens";
+} from './Screens'
 
 export default function EventquanBriefDeliverablesCanvas() {
   return (
-    <Canvas name="EventQuan brief deliverables" backgroundColor="#232323">
+    <Canvas name="A&M brief" backgroundColor="#232323">
       <Storyboard id="01-sign-in" name="1 · Sign in / first run" component={SignInScreen} layout={{ x: 0, y: 0 }} />
       <Storyboard id="02-home" name="2 · University Home" component={HomeScreen} layout={{ x: 507, y: 0 }} />
       <Storyboard id="03-events" name="3 · EventFinder" component={EventFinderScreen} layout={{ x: 1014, y: 0 }} />
@@ -30,5 +30,5 @@ export default function EventquanBriefDeliverablesCanvas() {
         layout={{ x: 0, y: 972 }}
       />
     </Canvas>
-  );
+  )
 }

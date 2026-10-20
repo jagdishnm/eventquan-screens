@@ -13,7 +13,17 @@ import { WelcomeCampus } from '../../../../src/screens/Welcome'
  * path, sized to the phone (or the journey board). Component storyboards use Tempo's
  * component render pool instead of the much smaller route pool.
  */
-function Frame({ path, width, height, children }: { path: string; width: number; height: number; children: ReactNode }) {
+function Frame({
+  path,
+  width,
+  height,
+  children,
+}: {
+  path: string
+  width: number
+  height: number
+  children: ReactNode
+}) {
   return (
     <div style={{ width, height }} className="overflow-hidden">
       <MemoryRouter initialEntries={[path]}>{children}</MemoryRouter>

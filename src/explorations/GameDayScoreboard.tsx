@@ -10,6 +10,7 @@ import {
   Utensils,
   Video,
 } from 'lucide-react'
+import type { ReactNode } from 'react'
 import { Faces } from '../components/Avatar'
 import { Badge, LiveDot } from '../components/Badge'
 import { Button } from '../components/Button'
@@ -20,6 +21,7 @@ import { TabBar } from '../components/TabBar'
 import { IconButton } from '../components/ui'
 
 const TABS = ['Overview', 'Plays', 'Box score', 'Your crew'] as const
+export type GameTab = (typeof TABS)[number]
 
 const LINE = [
   { team: 'A&M', Mark: AggieMark, q: [7, 10, null, null], t: 17 },
@@ -43,7 +45,15 @@ const TOOLS = [
  * After Apple Sports and MLS: team colours meet across the header, the score is the hero and the
  * detail lives in tabs. His GAMEDAY banner and eight tools stay; EventQuan adds where your crew is.
  */
-export function GameDayScoreboard() {
+export function GameDayScoreboard({
+  tab = 'Overview',
+  children,
+}: {
+  /** The selected game section. */
+  tab?: GameTab
+  /** Replaces the Overview body under the tabs (flow screens for Plays and Your crew). */
+  children?: ReactNode
+} = {}) {
   return (
     <Screen bg="bg-night">
       <StatusBar />
@@ -69,7 +79,7 @@ export function GameDayScoreboard() {
           </p>
           <div aria-hidden className="relative mt-2 grid grid-cols-[1fr_auto_1fr] items-center px-4">
             <div className="flex flex-col items-center gap-1">
-              <AggieMark size={48} />
+              <AggieMark team size={48} />
               <span className="text-control font-semibold">Texas A&amp;M</span>
             </div>
             <div className="text-center">
@@ -98,102 +108,108 @@ export function GameDayScoreboard() {
 
         <nav aria-label="Game sections" className="sticky top-0 z-10 border-b border-white/8 bg-night px-2">
           <ul className="flex">
-            {TABS.map((t, i) => (
+            {TABS.map((t) => (
               <li key={t} className="flex-1">
                 <button
                   type="button"
-                  aria-pressed={i === 0}
-                  className={`relative h-[44px] w-full text-control font-semibold ${i === 0 ? 'text-white' : 'text-white/60'}`}
+                  aria-pressed={t === tab}
+                  className={`relative h-[44px] w-full text-control font-semibold ${t === tab ? 'text-white' : 'text-white/60'}`}
                 >
                   {t}
-                  {i === 0 ? <span className="absolute inset-x-3 bottom-0 h-[3px] rounded-full bg-white" /> : null}
+                  {t === tab ? <span className="absolute inset-x-3 bottom-0 h-[3px] rounded-full bg-white" /> : null}
                 </button>
               </li>
             ))}
           </ul>
         </nav>
 
-        <div className="mx-4 mt-3 overflow-hidden rounded-card bg-night-2 text-white ring-1 ring-white/8">
-          <table className="w-full text-control tabular">
-            <caption className="sr-only">Score by quarter</caption>
-            <thead>
-              <tr className="text-micro font-bold tracking-eyebrow text-white/60">
-                <th scope="col" className="py-2 pl-3.5 text-left font-bold">
-                  TEAM
-                </th>
-                {['1', '2', '3', '4'].map((q) => (
-                  <th key={q} scope="col" className="w-[38px] font-bold">
-                    {q}
-                  </th>
-                ))}
-                <th scope="col" className="w-[52px] pr-3.5 text-right font-bold">
-                  T
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/8">
-              {LINE.map(({ team, Mark, q, t }) => (
-                <tr key={team}>
-                  <th scope="row" className="py-2 pl-3.5 text-left">
-                    <span className="flex items-center gap-2 font-semibold">
-                      <Mark size={22} />
-                      {team}
-                    </span>
-                  </th>
-                  {q.map((v, k) => (
-                    <td key={k} className={`text-center ${v === null ? 'text-white/25' : 'text-white/75'}`}>
-                      {v ?? '–'}
-                    </td>
+        {children ?? (
+          <>
+            <div className="mx-4 mt-3 overflow-hidden rounded-card bg-night-2 text-white ring-1 ring-white/8">
+              <table className="w-full text-control tabular">
+                <caption className="sr-only">Score by quarter</caption>
+                <thead>
+                  <tr className="text-micro font-bold tracking-eyebrow text-white/60">
+                    <th scope="col" className="py-2 pl-3.5 text-left font-bold">
+                      TEAM
+                    </th>
+                    {['1', '2', '3', '4'].map((q) => (
+                      <th key={q} scope="col" className="w-[38px] font-bold">
+                        {q}
+                      </th>
+                    ))}
+                    <th scope="col" className="w-[52px] pr-3.5 text-right font-bold">
+                      T
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/8">
+                  {LINE.map(({ team, Mark, q, t }) => (
+                    <tr key={team}>
+                      <th scope="row" className="py-2 pl-3.5 text-left">
+                        <span className="flex items-center gap-2 font-semibold">
+                          <Mark size={22} />
+                          {team}
+                        </span>
+                      </th>
+                      {q.map((v, k) => (
+                        <td key={k} className={`text-center ${v === null ? 'text-white/25' : 'text-white/75'}`}>
+                          {v ?? '–'}
+                        </td>
+                      ))}
+                      <td className="pr-3.5 text-right font-display text-title font-bold">{t}</td>
+                    </tr>
                   ))}
-                  <td className="pr-3.5 text-right font-display text-title font-bold">{t}</td>
-                </tr>
+                </tbody>
+              </table>
+              <div className="border-t border-white/8 px-3.5 py-2.5">
+                <div className="flex justify-between text-micro font-bold tracking-eyebrow">
+                  <span className="text-white">A&amp;M 68%</span>
+                  <span className="text-white/60">WIN PROBABILITY</span>
+                  <span className="text-white/75">32% LSU</span>
+                </div>
+                <div aria-hidden className="mt-1.5 flex h-[8px] gap-[3px] overflow-hidden rounded-full">
+                  <span className="w-[68%] rounded-full bg-white/85" />
+                  <span className="flex-1 rounded-full bg-lsu" />
+                </div>
+              </div>
+            </div>
+
+            <div className="mx-4 mt-3 grid grid-cols-4 gap-2">
+              {TOOLS.map((t) => (
+                <button
+                  type="button"
+                  key={t.label}
+                  className="press flex flex-col items-center rounded-thumb bg-night-2 px-1 pb-2 pt-2.5 text-white ring-1 ring-white/8"
+                >
+                  <span className="relative grid size-[32px] place-items-center rounded-well bg-white/8">
+                    <t.Icon size={18} />
+                    {t.live ? (
+                      <LiveDot className="absolute -right-0.5 -top-0.5 !size-[8px] ring-2 ring-night-2" />
+                    ) : null}
+                  </span>
+                  <span className="mt-1.5 text-micro font-semibold">{t.label}</span>
+                </button>
               ))}
-            </tbody>
-          </table>
-          <div className="border-t border-white/8 px-3.5 py-2.5">
-            <div className="flex justify-between text-micro font-bold tracking-eyebrow">
-              <span className="text-white">A&amp;M 68%</span>
-              <span className="text-white/60">WIN PROBABILITY</span>
-              <span className="text-white/75">32% LSU</span>
             </div>
-            <div aria-hidden className="mt-1.5 flex h-[8px] gap-[3px] overflow-hidden rounded-full">
-              <span className="w-[68%] rounded-full bg-white/85" />
-              <span className="flex-1 rounded-full bg-lsu" />
+
+            {/* EventQuan's addition: your people, in the stadium */}
+            <div className="mx-4 mt-3 flex items-center gap-3 rounded-card bg-night-2 px-3.5 py-2.5 text-white ring-1 ring-white/8">
+              <Faces n={3} size={26} surface="photo" />
+              <div className="min-w-0 flex-1">
+                <div className="text-control font-semibold">Maya + Alex, Sec 125</div>
+                <div className="text-meta text-white/60">6 of your crew are here</div>
+              </div>
+              <Button variant="tonal" size="sm">
+                Meet up
+              </Button>
             </div>
-          </div>
-        </div>
 
-        <div className="mx-4 mt-3 grid grid-cols-4 gap-2">
-          {TOOLS.map((t) => (
-            <button
-              type="button"
-              key={t.label}
-              className="press flex flex-col items-center rounded-thumb bg-night-2 px-1 pb-2 pt-2.5 text-white ring-1 ring-white/8"
-            >
-              <span className="relative grid size-[32px] place-items-center rounded-well bg-white/8">
-                <t.Icon size={18} />
-                {t.live ? <LiveDot className="absolute -right-0.5 -top-0.5 !size-[8px] ring-2 ring-night-2" /> : null}
-              </span>
-              <span className="mt-1.5 text-micro font-semibold">{t.label}</span>
-            </button>
-          ))}
-        </div>
-
-        {/* EventQuan's addition: your people, in the stadium */}
-        <div className="mx-4 mt-3 flex items-center gap-3 rounded-card bg-night-2 px-3.5 py-2.5 text-white ring-1 ring-white/8">
-          <Faces n={3} size={26} surface="photo" />
-          <div className="min-w-0 flex-1">
-            <div className="text-control font-semibold">Maya + Alex, Sec 125</div>
-            <div className="text-meta text-white/60">6 of your crew are here</div>
-          </div>
-          <Button variant="tonal" size="sm">
-            Meet up
-          </Button>
-        </div>
-
-        <div className="mx-4 mt-3">
-          <Button className="w-full">Order to Seat 125 · 4 min</Button>
-        </div>
+            <div className="mx-4 mt-3">
+              <Button className="w-full">Order to Seat 125 · 4 min</Button>
+            </div>
+          </>
+        )}
       </ScrollBody>
       <TabBar active="home" surface="dark" />
     </Screen>
